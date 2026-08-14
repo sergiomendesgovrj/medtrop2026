@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Escala CCUG — Painel de Equipe</title>
+<style>
+  :root{
+    --ink:#0a1224;
+    --panel:#0f1c34;
+    --panel-2:#152845;
+    --line:#22375c;
+    --paper:#f3f1ea;
+    --gold:#e8a940;
+    --gold-dim:#b9852f;
+    --cyan:#2fd6c8;
+    --green:#7fae6e;
+    --red-tag:#c76a5f;
+    --text:#f2f5fa;
+    --text-dim:#5f7093;
+    --mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+    --sans: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+    --serif: 'Fraunces', Georgia, serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--ink);color:var(--text);font-family:var(--sans);}
+
+  /* ===== Crachá / badge header ===== */
+  .stub-strip{
+    height:6px;
+    background:linear-gradient(90deg,var(--cyan),var(--gold));
+    opacity:.7;
+  }
+  header{
+    padding:36px 32px 26px;
+    background:radial-gradient(120% 160% at 10% 0%,#132848 0%,var(--ink) 55%);
+    border-bottom:1px solid var(--line);
+    position:relative;
+    overflow:hidden;
+  }
+  header::after{
+    content:"CCUG";
+    position:absolute;
+    right:-10px; top:-30px;
+    font-family:var(--serif);
+    font-size:180px;
+    font-weight:600;
+    color:rgba(255,255,255,.025);
+    letter-spacing:-4px;
+    pointer-events:none;
+  }
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--gold);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{content:"";width:18px;height:1px;background:var(--gold);}
+  h1{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:clamp(28px,4vw,42px);
+    margin:10px 0 6px;
+    letter-spacing:-.01em;
+  }
+  .sub{color:var(--text-dim);font-size:14.5px;max-width:560px;line-height:1.5;}
+
+  /* ===== Stat strip ===== */
+  .stats{
+    display:flex;
+    gap:14px;
+    margin-top:26px;
+    flex-wrap:wrap;
+  }
+  .stat{
+    padding:16px 24px;
+    min-width:110px;
+    background:linear-gradient(160deg,var(--panel-2),var(--panel));
+    border:1px solid var(--line);
+    border-left:3px solid var(--cyan);
+    border-radius:14px;
+    box-shadow:0 8px 20px -12px rgba(0,0,0,.6);
+  }
+  .stat:nth-child(2){border-left-color:var(--gold);}
+  .stat:nth-child(3){border-left-color:var(--green);}
+  .stat:nth-child(4){border-left-color:#8a7ee0;}
+  .stat b{
+    display:block;
+    font-family:var(--mono);
+    font-size:24px;
+    font-weight:700;
+    color:var(--text);
+    letter-spacing:-.01em;
+  }
+  .stat span{font-size:10.5px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.1em;}
+
+  /* ===== Controls ===== */
+  .controls{
+    padding:22px 32px;
+    background:var(--panel);
+    border-bottom:1px solid var(--line);
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    align-items:center;
+    position:sticky;
+    top:0;
+    z-index:20;
+  }
+  .search-wrap{
+    position:relative;
+    flex:1 1 260px;
+    min-width:220px;
+  }
+  .search-wrap svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);opacity:.5;}
+  #search{
+    width:100%;
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    color:var(--text);
+    padding:11px 14px 11px 38px;
+    border-radius:8px;
+    font-family:var(--sans);
+    font-size:14px;
+    outline:none;
+    transition:border-color .15s;
+  }
+  #search::placeholder{color:var(--text-dim);}
+  #search:focus{border-color:var(--gold-dim);}
+
+  select{
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    color:var(--text);
+    padding:11px 34px 11px 14px;
+    border-radius:10px;
+    font-family:var(--sans);
+    font-size:13.5px;
+    outline:none;
+    cursor:pointer;
+    appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23a3acc0'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;
+    background-position:right 14px center;
+    transition:border-color .15s;
+  }
+  select:focus{border-color:var(--gold-dim);}
+
+  #clear{
+    background:none;
+    border:1px solid var(--line);
+    color:var(--text-dim);
+    padding:11px 16px;
+    border-radius:8px;
+    font-size:13px;
+    font-family:var(--sans);
+    cursor:pointer;
+    transition:.15s;
+  }
+  #clear:hover{border-color:var(--red-tag);color:var(--red-tag);}
+
+  .count-pill{
+    margin-left:auto;
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--text-dim);
+    white-space:nowrap;
+  }
+  .count-pill b{color:var(--gold);}
+
+  /* ===== Body / groups ===== */
+  main{padding:26px 32px 60px;max-width:1400px;margin:0 auto;}
+  .group{margin-bottom:8px;}
+  .group-head{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:16px 4px 10px;
+    cursor:default;
+  }
+  .coord-dot{width:9px;height:9px;border-radius:50%;flex:none;}
+  .group-head h2{
+    font-family:var(--serif);
+    font-size:19px;
+    font-weight:600;
+    margin:0;
+  }
+  .group-head .n{
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--text-dim);
+    background:var(--panel);
+    border:1px solid var(--line);
+    padding:2px 9px;
+    border-radius:20px;
+  }
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    background:linear-gradient(160deg,var(--panel-2),var(--panel));
+    border:1px solid var(--line);
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:0 14px 30px -18px rgba(0,0,0,.7);
+  }
+  thead th{
+    text-align:left;
+    font-family:var(--mono);
+    font-size:10.5px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--text-dim);
+    padding:12px 16px;
+    border-bottom:1px solid var(--line);
+    font-weight:500;
+  }
+  tbody td{
+    padding:13px 16px;
+    border-bottom:1px solid var(--line);
+    font-size:13.8px;
+    vertical-align:middle;
+  }
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr{transition:background .12s;}
+  tbody tr:hover{background:var(--panel-2);}
+  .nm{font-weight:600;color:var(--text);}
+  .wa{
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--text-dim);
+  }
+  .wa a{color:var(--text-dim);text-decoration:none;}
+  .wa a:hover{color:var(--green);}
+  .badge{
+    display:inline-block;
+    font-size:11.5px;
+    padding:4px 10px;
+    border-radius:20px;
+    border:1px solid var(--line);
+    color:var(--text-dim);
+    background:rgba(255,255,255,.03);
+  }
+  .local{color:var(--text-dim);font-size:13px;}
+  .hor{font-family:var(--mono);font-size:12.5px;color:var(--text-dim);}
+
+  .empty{
+    text-align:center;
+    padding:70px 20px;
+    color:var(--text-dim);
+  }
+  .empty .big{font-family:var(--serif);font-size:22px;color:var(--text);margin-bottom:6px;}
+
+  footer{
+    text-align:center;
+    padding:26px;
+    color:var(--text-dim);
+    font-size:11.5px;
+    font-family:var(--mono);
+    border-top:1px solid var(--line);
+  }
+
+  @media (max-width:720px){
+    header,.controls,main{padding-left:18px;padding-right:18px;}
+    thead{display:none;}
+    table,tbody,tr,td{display:block;width:100%;}
+    tbody tr{border-bottom:1px solid var(--line);padding:12px 0;}
+    tbody td{border:none;padding:4px 4px;}
+    .wa::before{content:"WhatsApp — ";color:var(--gold-dim);}
+    .local::before{content:"Local — ";color:var(--gold-dim);}
+    .hor::before{content:"Horário — ";color:var(--gold-dim);}
+  }
+</style>
+</head>
+<body>
+
+<div class="stub-strip"></div>
+<header>
+  <div class="eyebrow">Operação de Evento — CCUG</div>
+  <h1>Painel de Escala da Equipe</h1>
+  <p class="sub">Visão consolidada por Coordenador de RH, local e data. Busque por nome ou filtre a equipe para ver quem está escalado em cada frente de trabalho.</p>
+
+  <div class="stats" id="stats"></div>
+</header>
+
+<div class="controls">
+  <div class="search-wrap">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input id="search" type="text" placeholder="Buscar por nome completo…">
+  </div>
+  <select id="f-coord"><option value="">Coord RH — todos</option></select>
+  <select id="f-local"><option value="">Local — todos</option></select>
+  <select id="f-data"><option value="">Data — todas</option></select>
+  <select id="f-posto"><option value="">Posto — todos</option></select>
+  <button id="clear">Limpar filtros</button>
+  <div class="count-pill"><b id="count-n">0</b> pessoas exibidas</div>
+</div>
+
+<main id="main"></main>
+
+<footer>Base extraída da planilha original (22 registros) — confira números de WhatsApp antes de usar em campo.</footer>
+
+<script>
+const DATA = [
+  {nome:"Alicia Dantas Santos", wa:"(61) 9 9955-9641", posto:"Atividades de Salas Multiuso", data:"15/08/2026", horario:"7h às 19h", local:"Centro de Convenções Ulysses Guimarães (CCUG)", coord:"Cris e Viviane"},
+  {nome:"Ana Paula Sampaio Cardoso", wa:"(61) 98557-1395", posto:"Atividades de Salas Multiuso", data:"15/08/2026", horario:"7h às 19h", local:"Centro de Convenções Ulysses Guimarães (CCUG)", coord:"Cris e Viviane"},
+  {nome:"Danielly Canabarro de Carvalho", wa:"(61) 99348-0683", posto:"Atividades de Salas Multiuso", data:"15/08/2026", horario:"7h às 19h", local:"Centro de Convenções Ulysses Guimarães (CCUG)", coord:"Cris e Viviane"},
+  {nome:"Glauco Vinícius Nestor dos Santos", wa:"(61) 98595-6772", posto:"Atividades de Salas Multiuso", data:"15/08/2026", horario:"7h às 19h", local:"Centro de Convenções Ulysses Guimarães (CCUG)", coord:"Cris e Viviane"},
+  {nome:"Larissa Santos da Silva", wa:"(61) 99838-9642", posto:"Atividades de Salas Multiuso", data:"15/08/2026", horario:"7h às 19h", local:"Centro de Convenções Ulysses Guimarães (CCUG)", coord:"Cris e Viviane"},
+  {nome:"Manuella Lima Fernandes", wa:"(61) 99194-5835", posto:"Atividades de Salas Multiuso", data:"15/08/2026", horario:"7h às 19h", local:"Centro de Convenções Ulysses Guimarães (CCUG)", coord:"Cris e Viviane"},
+  {nome:"Maria Cecília Marinho Dutra", wa:"(61) 98331-6517", posto:"Atividades de Salas Multiuso", data:"15/08/2026", horario:"7h às 19h", local:"Centro de Convenções Ulysses Guimarães (CCUG)", coord:"Cris e Viviane"},
+  {nome:"Maria da Gloria da Silva", wa:"(61) 99612-7588", posto:"Atividades de Salas Multiuso", data:"15/08/2026", horario:"7h às 19h", local:"Centro de Convenções Ulysses Guimarães (CCUG)", coord:"Cris e Viviane"},
+  {nome:"Maria Eduarda Leal de Carvalho Santos", wa:"(61) 98234-3441", posto:"Atividades de Salas Multiuso", data:"15/08/2026", horario:"7h às 19h", local:"Centro de Convenções Ulysses Guimarães (CCUG)", coord:"Cris e Viviane"},
+  {nome:"Mariana Martins da Silva", wa:"(61) 98307-5071", posto:"Atividades de Salas Multiuso", data:"15/08/2026", horario:"7h às 19h", local:"Centro de Convenções Ulysses Guimarães (CCUG)", coord:"Cris e Viviane"},
+  {nome:"Miguel Alves De Lima Duarte", wa:"(86) 98123-3602", posto:"Atividades de Salas Multiuso", data:"15/08/2026", horario:"7h às 19h", local:"Centro de Convenções Ulysses Guimarães (CCUG)", coord:"Cris e Viviane"},
+  {nome:"Nayane Karoline França da Fonseca", wa:"(61) 99993-6098", posto:"Atividades de Salas Multiuso", data:"15/08/2026", horario:"7h às 19h", local:"Centro de Convenções Ulysses Guimarães (CCUG)", coord:"Cris e Viviane"},
+  {nome:"Pedro César Rezende Segurado", wa:"(62) 98464-6261", posto:"Atividades de Salas Multiuso", data:"15/08/2026", horario:"7h às 19h", local:"Centro de Convenções Ulysses Guimarães (CCUG)", coord:"Cris e Viviane"},
+  {nome:"Amanda Pereira Rocha", wa:"(61) 99634-5616", posto:"Montagem de Material", data:"15/08/2026", horario:"7h às 19h", local:"Centro de Convenções Ulysses Guimarães (CCUG)", coord:"Joel"},
+  {nome:"Ana Angelica Alves Lopes", wa:"(61) 99514-0175", posto:"Montagem de Material", data:"15/08/2026", horario:"7h às 19h", local:"Centro de Convenções Ulysses Guimarães (CCUG)", coord:"Joel"},
+  {nome:"Matheus Jiemon Hassler Sugai", wa:"(61) 99330-3939", posto:"Montagem de Material", data:"15/08/2026", horario:"7h às 19h", local:"Centro de Convenções Ulysses Guimarães (CCUG)", coord:"Joel"},
+  {nome:"Nilba Regina Medeiros de Araújo", wa:"(61) 99262-2977", posto:"Montagem de Material", data:"15/08/2026", horario:"7h às 19h", local:"Centro de Convenções Ulysses Guimarães (CCUG)", coord:"Joel"},
+  {nome:"Pedro Luís Pereira Braga de Sousa", wa:"(61) 98198-9555", posto:"Montagem de Material", data:"15/08/2026", horario:"7h às 19h", local:"Centro de Convenções Ulysses Guimarães (CCUG)", coord:"Joel"},
+  {nome:"Sara Gonçalves Matias", wa:"(61) 98634-2899", posto:"Montagem de Material", data:"15/08/2026", horario:"7h às 19h", local:"Centro de Convenções Ulysses Guimarães (CCUG)", coord:"Joel"},
+  {nome:"Filipe dos Santos Timboni", wa:"(61) 98191-1787", posto:"Sala Mídia Desk - Bilíngue", data:"15/08/2026", horario:"7h às 19h", local:"Centro de Convenções Ulysses Guimarães (CCUG)", coord:"Letícia"},
+  {nome:"Daniel Zaidan Rodrigues", wa:"(61) 99297-4113", posto:"Sala VIP - Bilíngue", data:"15/08/2026", horario:"7h às 19h", local:"Centro de Convenções Ulysses Guimarães (CCUG)", coord:"Liliane"},
+  {nome:"Luan Augusto Azevedo Santos", wa:"(61) 98193-8185", posto:"Sala VIP - Bilíngue", data:"15/08/2026", horario:"7h às 19h", local:"Centro de Convenções Ulysses Guimarães (CCUG)", coord:"Liliane"},
+];
+
+const COORD_COLORS = {
+  "Cris e Viviane":"#2fd6c8",
+  "Joel":"#e8a940",
+  "Letícia":"#7fae6e",
+  "Liliane":"#8a7ee0",
+};
+function coordColor(c){ return COORD_COLORS[c] || "#2fd6c8"; }
+
+function uniq(arr){ return [...new Set(arr)].sort((a,b)=>a.localeCompare(b,'pt-BR')); }
+
+function populateSelect(id, values){
+  const sel = document.getElementById(id);
+  values.forEach(v=>{
+    const o=document.createElement('option');
+    o.value=v; o.textContent=v;
+    sel.appendChild(o);
+  });
+}
+populateSelect('f-coord', uniq(DATA.map(d=>d.coord)));
+populateSelect('f-local', uniq(DATA.map(d=>d.local)));
+populateSelect('f-data', uniq(DATA.map(d=>d.data)));
+populateSelect('f-posto', uniq(DATA.map(d=>d.posto)));
+
+// stats strip
+function renderStats(){
+  const coords = uniq(DATA.map(d=>d.coord));
+  const locais = uniq(DATA.map(d=>d.local));
+  const datas = uniq(DATA.map(d=>d.data));
+  const el = document.getElementById('stats');
+  el.innerHTML = `
+    <div class="stat"><b>${DATA.length}</b><span>Escalados</span></div>
+    <div class="stat"><b>${coords.length}</b><span>Coord. RH</span></div>
+    <div class="stat"><b>${locais.length}</b><span>Locais</span></div>
+    <div class="stat"><b>${datas.length}</b><span>Datas</span></div>
+  `;
+}
+renderStats();
+
+function normalize(s){
+  return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+}
+
+function applyFilters(){
+  const q = normalize(document.getElementById('search').value.trim());
+  const coord = document.getElementById('f-coord').value;
+  const local = document.getElementById('f-local').value;
+  const data = document.getElementById('f-data').value;
+  const posto = document.getElementById('f-posto').value;
+
+  let rows = DATA.filter(d=>{
+    if(q && !normalize(d.nome).includes(q)) return false;
+    if(coord && d.coord!==coord) return false;
+    if(local && d.local!==local) return false;
+    if(data && d.data!==data) return false;
+    if(posto && d.posto!==posto) return false;
+    return true;
+  });
+
+  document.getElementById('count-n').textContent = rows.length;
+  render(rows);
+}
+
+function render(rows){
+  const main = document.getElementById('main');
+  main.innerHTML = '';
+
+  if(rows.length===0){
+    main.innerHTML = `<div class="empty"><div class="big">Ninguém encontrado</div>Ajuste a busca ou os filtros para ver a equipe.</div>`;
+    return;
+  }
+
+  // group by coordenador for the "team view" the RH lead needs
+  const groups = {};
+  rows.forEach(d=>{
+    (groups[d.coord] = groups[d.coord] || []).push(d);
+  });
+
+  Object.keys(groups).sort((a,b)=>a.localeCompare(b,'pt-BR')).forEach(coord=>{
+    const list = groups[coord];
+    const wrap = document.createElement('div');
+    wrap.className = 'group';
+    wrap.innerHTML = `
+      <div class="group-head">
+        <span class="coord-dot" style="background:${coordColor(coord)}"></span>
+        <h2>${coord}</h2>
+        <span class="n">${list.length} ${list.length===1?'pessoa':'pessoas'}</span>
+      </div>
+      <table style="border-left:3px solid ${coordColor(coord)}">
+        <thead>
+          <tr>
+            <th>Nome completo</th>
+            <th>WhatsApp</th>
+            <th>Posto</th>
+            <th>Data</th>
+            <th>Horário</th>
+            <th>Local</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${list.map(d=>`
+            <tr>
+              <td class="nm">${d.nome}</td>
+              <td class="wa"><a href="https://wa.me/55${d.wa.replace(/\D/g,'')}" target="_blank" rel="noopener">${d.wa}</a></td>
+              <td><span class="badge">${d.posto}</span></td>
+              <td class="hor">${d.data}</td>
+              <td class="hor">${d.horario}</td>
+              <td class="local">${d.local.replace(' (CCUG)','')}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
+    main.appendChild(wrap);
+  });
+}
+
+['search'].forEach(id=>document.getElementById(id).addEventListener('input', applyFilters));
+['f-coord','f-local','f-data','f-posto'].forEach(id=>document.getElementById(id).addEventListener('change', applyFilters));
+document.getElementById('clear').addEventListener('click', ()=>{
+  document.getElementById('search').value='';
+  ['f-coord','f-local','f-data','f-posto'].forEach(id=>document.getElementById(id).value='');
+  applyFilters();
+});
+
+applyFilters();
+</script>
+</body>
+</html>
