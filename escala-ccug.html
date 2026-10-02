@@ -142,6 +142,9 @@ svg text{font-family:var(--f-mono)}
 .box.mid{background:var(--box-mid)}.box.mid h3{color:var(--box-mid-ink)}
 .box h3{font-size:1.05rem}
 a{color:var(--accent)}
+.money td.n small{font-size:.78em;color:var(--muted)}
+.money td:first-child,.money th:first-child{position:sticky;left:0;background:var(--panel);z-index:1;min-width:11em;max-width:14em}
+.money tr.total td:first-child{background:var(--panel)}
 </style>
 
 <header class="hero" id="capa">
@@ -436,27 +439,27 @@ a{color:var(--accent)}
 <!-- ORÇAMENTO -->
 <section class="slide" id="orcamento">
   <div class="slide-head">
-    <span class="eyebrow">Orçamento paramétrico · R$ mil</span>
+    <span class="eyebrow">Orçamento paramétrico · valores em reais</span>
     <h2>O valor do edital só basta no escopo enxuto</h2>
     <p class="muted">Estimativa calibrada com o Orçamento Master do MAZ (implantação 2026). O Anexo VII não divulga a composição do valor de referência, só as categorias de custo. As premissas de área, mobiliário e obras restauradas precisam ser validadas.</p>
   </div>
-  <div class="tbl"><table>
+  <div class="tbl money"><table>
     <thead><tr><th>Componente</th><th class="n">Enxuto</th><th class="n">Base</th><th class="n">Robusto</th><th>Referência MAZ</th></tr></thead>
     <tbody>
-      <tr><td>A · Planejamento museológico</td><td class="n">160</td><td class="n">180</td><td class="n">200</td><td>Plano museológico: 251</td></tr>
-      <tr><td>B · Pesquisa, curadoria e acervo</td><td class="n">450</td><td class="n">520</td><td class="n">600</td><td>Equipe de curadoria: 747</td></tr>
-      <tr><td>C · Expografia, acessibilidade, montagem, pátio e auditório</td><td class="n">1.680</td><td class="n">2.280</td><td class="n">3.000</td><td>Expografia Ajuri: 710 · acessibilidade: 373</td></tr>
-      <tr><td>D · Identidade e comunicação</td><td class="n">260</td><td class="n">320</td><td class="n">380</td><td>Sinalização 269 · identidade 157</td></tr>
-      <tr><td>E · Tecnologia e conteúdos digitais</td><td class="n">1.220</td><td class="n">1.600</td><td class="n">2.160</td><td>Equipamentos de exposição: 4.390</td></tr>
-      <tr><td>F · Salvaguarda, seguro e reserva técnica</td><td class="n">760</td><td class="n">1.100</td><td class="n">1.350</td><td>—</td></tr>
-      <tr><td>G · Educação, operação, transição</td><td class="n">360</td><td class="n">410</td><td class="n">490</td><td>—</td></tr>
-      <tr><td>Equipe núcleo 12 meses (coordenação, museologia, adm-fin)</td><td class="n">900</td><td class="n">1.020</td><td class="n">1.100</td><td>—</td></tr>
-      <tr><td>Logística Rio–Aracaju</td><td class="n">180</td><td class="n">200</td><td class="n">240</td><td>Viagens MAZ: 1.449</td></tr>
-      <tr><td><strong>Custo direto</strong></td><td class="n"><strong>5.970</strong></td><td class="n"><strong>7.630</strong></td><td class="n"><strong>9.520</strong></td><td></td></tr>
-      <tr><td>Contingência 5%</td><td class="n">299</td><td class="n">382</td><td class="n">476</td><td></td></tr>
-      <tr><td>Custos indiretos / rateio IDG</td><td class="n">501 (8%)</td><td class="n">801 (10%)</td><td class="n">1.000 (10%)</td><td>Coordenação IDG no MAZ: ~11%</td></tr>
-      <tr class="total"><td>Total</td><td class="n">6.770</td><td class="n">8.813</td><td class="n">10.996</td><td></td></tr>
-      <tr><td>Diferença para a referência (7.872)</td><td class="n"><span class="chip c-ok">−14%</span></td><td class="n"><span class="chip c-warn">+12%</span></td><td class="n"><span class="chip c-bad">+40%</span></td><td></td></tr>
+      <tr><td>A · Planejamento museológico</td><td class="n">R$ 160<small> mil</small></td><td class="n">R$ 180<small> mil</small></td><td class="n">R$ 200<small> mil</small></td><td>Plano museológico: R$ 251 mil</td></tr>
+      <tr><td>B · Pesquisa, curadoria e acervo</td><td class="n">R$ 450<small> mil</small></td><td class="n">R$ 520<small> mil</small></td><td class="n">R$ 600<small> mil</small></td><td>Equipe de curadoria: R$ 747 mil</td></tr>
+      <tr><td>C · Expografia, acessibilidade, montagem, pátio e auditório</td><td class="n">R$ 1.680<small> mil</small></td><td class="n">R$ 2.280<small> mil</small></td><td class="n">R$ 3.000<small> mil</small></td><td>Expografia Ajuri: R$ 710 mil · acessibilidade: R$ 373 mil</td></tr>
+      <tr><td>D · Identidade e comunicação</td><td class="n">R$ 260<small> mil</small></td><td class="n">R$ 320<small> mil</small></td><td class="n">R$ 380<small> mil</small></td><td>Sinalização R$ 269 mil · identidade R$ 157 mil</td></tr>
+      <tr><td>E · Tecnologia e conteúdos digitais</td><td class="n">R$ 1.220<small> mil</small></td><td class="n">R$ 1.600<small> mil</small></td><td class="n">R$ 2.160<small> mil</small></td><td>Equipamentos de exposição: R$ 4,39 mi</td></tr>
+      <tr><td>F · Salvaguarda, seguro e reserva técnica</td><td class="n">R$ 760<small> mil</small></td><td class="n">R$ 1.100<small> mil</small></td><td class="n">R$ 1.350<small> mil</small></td><td>—</td></tr>
+      <tr><td>G · Educação, operação, transição</td><td class="n">R$ 360<small> mil</small></td><td class="n">R$ 410<small> mil</small></td><td class="n">R$ 490<small> mil</small></td><td>—</td></tr>
+      <tr><td>Equipe núcleo 12 meses (coordenação, museologia, adm-fin)</td><td class="n">R$ 900<small> mil</small></td><td class="n">R$ 1.020<small> mil</small></td><td class="n">R$ 1.100<small> mil</small></td><td>—</td></tr>
+      <tr><td>Logística Rio–Aracaju</td><td class="n">R$ 180<small> mil</small></td><td class="n">R$ 200<small> mil</small></td><td class="n">R$ 240<small> mil</small></td><td>Viagens MAZ: R$ 1,45 mi</td></tr>
+      <tr><td><strong>Custo direto</strong></td><td class="n"><strong>R$ 5.970<small> mil</small></strong></td><td class="n"><strong>R$ 7.630<small> mil</small></strong></td><td class="n"><strong>R$ 9.520<small> mil</small></strong></td><td></td></tr>
+      <tr><td>Contingência 5%</td><td class="n">R$ 299<small> mil</small></td><td class="n">R$ 382<small> mil</small></td><td class="n">R$ 476<small> mil</small></td><td></td></tr>
+      <tr><td>Custos indiretos / rateio IDG</td><td class="n">R$ 501<small> mil</small> (8%)</td><td class="n">R$ 801<small> mil</small> (10%)</td><td class="n">R$ 1.000<small> mil</small> (10%)</td><td>Coordenação IDG no MAZ: ~11%</td></tr>
+      <tr class="total"><td>Total</td><td class="n">R$ 6.770<small> mil</small></td><td class="n">R$ 8.813<small> mil</small></td><td class="n">R$ 10.996<small> mil</small></td><td></td></tr>
+      <tr><td>Diferença para a referência (R$ 7,87 mi)</td><td class="n"><span class="chip c-ok">−14%</span></td><td class="n"><span class="chip c-warn">+12%</span></td><td class="n"><span class="chip c-bad">+40%</span></td><td></td></tr>
     </tbody>
   </table></div>
   <div class="svgwrap">
@@ -464,20 +467,20 @@ a{color:var(--accent)}
       <g font-size="11">
         <line x1="140" y1="18" x2="140" y2="170" stroke="var(--rule)"/>
         <line x1="423.4" y1="22" x2="423.4" y2="176" stroke="var(--gold)" stroke-dasharray="4 3"/>
-        <text x="418" y="192" text-anchor="end" fill="var(--gold)">7.085 nota máx.</text>
+        <text x="418" y="192" text-anchor="end" fill="var(--gold)">R$ 7,09 mi · nota máx.</text>
         <line x1="454.9" y1="14" x2="454.9" y2="176" stroke="var(--ink)" stroke-width="1.5"/>
-        <text x="458" y="12" fill="var(--ink)">7.872 referência</text>
+        <text x="440" y="12" fill="var(--ink)">R$ 7,87 mi · referência</text>
         <text x="0" y="49" fill="var(--ink)">Enxuto</text>
         <rect x="140" y="34" width="270.8" height="22" fill="var(--ok)"/>
-        <text x="365" y="49" fill="var(--panel)">6.770</text>
+        <text x="320" y="49" fill="var(--panel)">R$ 6,77 mi</text>
         <text x="0" y="99" fill="var(--ink)">Base</text>
         <rect x="140" y="84" width="352.5" height="22" fill="var(--warn)"/>
-        <text x="498" y="99" fill="var(--ink)">8.813</text>
+        <text x="498" y="99" fill="var(--ink)">R$ 8,81 mi</text>
         <text x="0" y="149" fill="var(--ink)">Robusto</text>
         <rect x="140" y="134" width="439.8" height="22" fill="var(--bad)"/>
-        <text x="584" y="149" fill="var(--ink)">10.996</text>
-        <text x="140" y="208" fill="var(--muted)">0</text>
-        <text x="620" y="208" text-anchor="end" fill="var(--muted)">12.000</text>
+        <text x="560" y="149" fill="var(--ink)">R$ 11,0 mi</text>
+        <text x="140" y="208" fill="var(--muted)">R$ 0</text>
+        <text x="620" y="208" text-anchor="end" fill="var(--muted)">R$ 12 mi</text>
       </g>
     </svg>
   </div>
