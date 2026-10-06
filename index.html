@@ -240,6 +240,16 @@ tfoot td{font-family:var(--display);font-weight:800;border-bottom:0;background:v
 :root[data-theme="dark"] .pill{background:#3D2F10;color:#FFD68A}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .pill{background:#3D2F10;color:#FFD68A}}
 .ph{color:var(--muted);letter-spacing:.06em}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:2px solid var(--line)}
+.tab{font:700 14px var(--display);color:var(--muted);background:none;border:0;padding:10px 16px;margin-bottom:-2px;border-bottom:3px solid transparent;cursor:pointer}
+.tab[aria-selected="true"]{color:var(--fg);border-bottom-color:var(--sky)}
+.tab:focus-visible{outline:2px solid var(--sky);outline-offset:2px}
+.panel{display:grid;gap:12px}
+[hidden]{display:none!important}
+tr.grp td{font-family:var(--display);font-size:11.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--chip-fg);background:var(--chip);padding:8px 16px}
+table.sm{min-width:480px}
+.alt{font-weight:600;color:var(--muted);font-size:.8em}
+.pill-s{margin-left:6px;vertical-align:1px}
 .note{font-size:14px;color:var(--muted);max-width:72ch}
 
 /* Encerramento */
@@ -469,24 +479,26 @@ footer img{height:26px;width:auto}
             <p class="note">Abertura do diretor: cerca de 15 min.</p></div>
         </details>
         <details class="g">
-          <summary><div><div class="g-n">GRUPO 2</div><h3>Adasa Estrutura e Modernização</h3><p class="eixo">Estrutura, inovação e preparação institucional para o futuro</p><div class="dir"><em>Diretor</em> Vinícius Benevides</div></div><span class="plus" aria-hidden="true"></span></summary>
+          <summary><div><div class="g-n">GRUPO 2</div><h3>Adasa Estrutura e Organização</h3><p class="eixo">Estrutura, organização e preparação institucional para o futuro</p><div class="dir"><em>Diretor</em> Vinícius Benevides</div></div><span class="plus" aria-hidden="true"></span></summary>
           <div class="g-body"><p>Perfil predominantemente técnico: a estrutura necessária para que a Adasa esteja preparada para os desafios futuros.</p>
-            <div class="tags"><span>Modernização institucional</span><span>Inovação</span><span>Melhoria da estrutura</span><span>Processos e modelos de trabalho</span><span>Preparação para o futuro</span><span>Eficiência institucional</span><span>Transformação da Agência</span></div>
+            <div class="tags"><span>Modernização institucional</span><span>Melhoria da estrutura</span><span>Processos e modelos de trabalho</span><span>Preparação para o futuro</span><span>Eficiência institucional</span><span>Transformação da Agência</span></div>
             <p class="note">Abertura do diretor: 15 a 20 min.</p></div>
         </details>
         <details class="g">
-          <summary><div><div class="g-n">GRUPO 3</div><h3>Adasa Educa e Cultiva</h3><p class="eixo">Educação, cultura e disseminação de conhecimento</p><div class="dir"><em>Diretor</em> Rogério Rosso</div></div><span class="plus" aria-hidden="true"></span></summary>
+          <summary><div><div class="g-n">GRUPO 3</div><h3>Adasa Educação e Cultura</h3><p class="eixo">Educação, cultura e disseminação de conhecimento</p><div class="dir"><em>Diretor</em> Rogério Rosso</div></div><span class="plus" aria-hidden="true"></span></summary>
           <div class="g-body"><p>Como ampliar a atuação da Adasa para além da regulação, fortalecendo seu papel na educação e na disseminação de conhecimento.</p>
             <div class="tags"><span>Educação da sociedade</span><span>Disseminação de conhecimento</span><span>Capacitação</span><span>Visibilidade institucional</span><span>Aproximação com a sociedade</span><span>Cultura da água</span><span>Arte e cultura como sensibilização</span><span>Novas possibilidades de atuação</span></div>
             <p class="note">O diretor faz uma abertura para orientar as reflexões.</p></div>
         </details>
-        <details class="g tbd">
-          <summary><div><div class="g-n">GRUPO 4</div><h3>Eixo a definir</h3><p class="eixo">Tema e denominação ainda a definir pela organização</p><div class="dir"><em>Diretor</em> Apolinário Rebelo</div></div><span class="plus" aria-hidden="true"></span></summary>
-          <div class="g-body"><p>Segue a mesma metodologia dos demais grupos: provocação inicial, orientação metodológica, reflexão coletiva, propostas e consolidação.</p></div>
+        <details class="g">
+          <summary><div><div class="g-n">GRUPO 4</div><h3>Adasa Tecnologia e Inovação</h3><p class="eixo">Tecnologia, inovação e transformação digital</p><div class="dir"><em>Diretor</em> Apolinário Rebelo</div></div><span class="plus" aria-hidden="true"></span></summary>
+          <div class="g-body"><p>Como a tecnologia e a inovação podem ampliar a capacidade da Adasa de cumprir sua missão e se preparar para o futuro.</p>
+            <div class="tags"><span>Inovação</span><span>Tecnologia</span><span>Transformação digital</span><span>Novas ferramentas de trabalho</span><span>Preparação para o futuro</span></div>
+            <p class="note">Segue a metodologia comum: provocação inicial, orientação, reflexão coletiva, propostas e consolidação.</p></div>
         </details>
         <details class="g">
-          <summary><div><div class="g-n">GRUPO 5</div><h3>Adasa e as Pessoas</h3><p class="eixo">Pessoas, desenvolvimento e futuro do trabalho</p><div class="dir"><em>Diretor</em> Félix Pallazzo</div></div><span class="plus" aria-hidden="true"></span></summary>
-          <div class="g-body"><p>As pessoas como elemento fundamental para que a Adasa alcance seus resultados, e como prepará-las para os desafios futuros.</p>
+          <summary><div><div class="g-n">GRUPO 5</div><h3>Adasa Pessoas como Agente de Mudança</h3><p class="eixo">Pessoas, desenvolvimento e futuro do trabalho</p><div class="dir"><em>Diretor</em> Félix Pallazzo</div></div><span class="plus" aria-hidden="true"></span></summary>
+          <div class="g-body"><p>As pessoas como agentes de mudança e elemento fundamental para que a Adasa alcance seus resultados, e como prepará-las para os desafios futuros.</p>
             <div class="tags"><span>Valorização das pessoas</span><span>Ambiente organizacional</span><span>Desenvolvimento profissional</span><span>Capacitação</span><span>Preparação para o futuro</span><span>Novas competências</span><span>Pessoas e resultados</span><span>Gestão de talentos</span></div></div>
         </details>
       </div>
@@ -540,20 +552,56 @@ footer img{height:26px;width:auto}
 
   <!-- 08 Orçamento -->
   <details class="sec" id="orcamento">
-    <summary><span class="num">08</span><span class="sum-t"><h2>Orçamento</h2><p>Propostas dos convidados, a incluir</p></span><span class="plus" aria-hidden="true"></span></summary>
+    <summary><span class="num">08</span><span class="sum-t"><h2>Orçamento</h2><p>Convidados e Tauá Alexânia, valores a incluir</p></span><span class="plus" aria-hidden="true"></span></summary>
     <div class="sec-body">
-      <div class="tbl-wrap">
-        <table>
+      <div class="tabs" role="tablist" aria-label="Abas do orçamento">
+        <button class="tab" role="tab" id="tab-conv" aria-controls="pn-conv" aria-selected="true" type="button">Convidados</button>
+        <button class="tab" role="tab" id="tab-taua" aria-controls="pn-taua" aria-selected="false" type="button">Tauá Alexânia</button>
+        <button class="tab" role="tab" id="tab-res" aria-controls="pn-res" aria-selected="false" type="button">Resumo</button>
+      </div>
+      <div class="panel" role="tabpanel" id="pn-conv" aria-labelledby="tab-conv">
+        <div class="tbl-wrap"><table>
           <thead><tr><th>Item</th><th>Responsável</th><th>Escopo</th><th>Situação</th><th class="v">Valor (R$)</th></tr></thead>
           <tbody>
             <tr><td><b>Workshop Alfabetização em Futuros</b></td><td>Fabio Scarano</td><td>Workshop de cerca de 3h<small>2 dez, manhã</small></td><td><span class="pill">A incluir</span></td><td class="v ph">—</td></tr>
             <tr><td><b>Dinâmica “Caixinha de Desejos”</b></td><td>Samira Iasbeck</td><td>Condução da dinâmica e sistematização<small>2 dez, tarde</small></td><td><span class="pill">A incluir</span></td><td class="v ph">—</td></tr>
             <tr><td><b>Palestra Desenvolvimento de Liderança</b></td><td>A confirmar</td><td>Palestra de 1h30<small>2 dez, tarde</small></td><td><span class="pill">A incluir</span></td><td class="v ph">—</td></tr>
           </tbody>
-          <tfoot><tr><td colspan="4">Total</td><td class="v">—</td></tr></tfoot>
-        </table>
+          <tfoot><tr><td colspan="4">Subtotal convidados</td><td class="v">—</td></tr></tfoot>
+        </table></div>
       </div>
-      <p class="note">Valores a preencher conforme as propostas recebidas. Hospedagem, alimentação, transporte e materiais podem entrar como linhas adicionais.</p>
+      <div class="panel" role="tabpanel" id="pn-taua" aria-labelledby="tab-taua" hidden>
+        <div class="tbl-wrap"><table>
+          <thead><tr><th>Item</th><th>Quando</th><th>Quantidade</th><th>Situação</th><th class="v">Valor (R$)</th></tr></thead>
+          <tbody>
+            <tr class="grp"><td colspan="5">Hospedagem</td></tr>
+            <tr><td><b>Diárias</b></td><td>1 noite<small>2 → 3 dez</small></td><td>Quartos conforme divisão<small>participantes e Diretoria</small></td><td><span class="pill">A incluir</span></td><td class="v ph">—</td></tr>
+            <tr class="grp"><td colspan="5">Alimentação</td></tr>
+            <tr><td><b>Café da manhã de chegada</b></td><td>2 dez · 9h</td><td>Todos os participantes</td><td><span class="pill">A incluir</span></td><td class="v ph">—</td></tr>
+            <tr><td><b>Almoço</b></td><td>2 dez · 13h–14h30</td><td>Todos os participantes</td><td><span class="pill">A incluir</span></td><td class="v ph">—</td></tr>
+            <tr><td><b>Intervalo · café</b></td><td>2 dez · 16h–16h30</td><td>Participantes</td><td><span class="pill">A incluir</span></td><td class="v ph">—</td></tr>
+            <tr><td><b>Coquetel de confraternização e jantar</b></td><td>2 dez · 19h30–22h</td><td>Todos os participantes</td><td><span class="pill">A incluir</span></td><td class="v ph">—</td></tr>
+            <tr><td><b>Café da manhã</b></td><td>3 dez</td><td>Hóspedes<small>verificar se está incluído na diária</small></td><td><span class="pill">A incluir</span></td><td class="v ph">—</td></tr>
+            <tr><td><b>Almoço</b></td><td>3 dez · 12h30–14h</td><td>Todos os participantes</td><td><span class="pill">A incluir</span></td><td class="v ph">—</td></tr>
+            <tr class="grp"><td colspan="5">Espaços</td></tr>
+            <tr><td><b>Sala plenária</b></td><td>2 e 3 dez</td><td>Workshop, palestra e apresentação dos resultados</td><td><span class="pill">A incluir</span></td><td class="v ph">—</td></tr>
+            <tr><td><b>Salas ou mesas dos grupos</b></td><td>3 dez</td><td>5 grupos de cerca de 10 pessoas</td><td><span class="pill">A incluir</span></td><td class="v ph">—</td></tr>
+            <tr><td><b>Sala de reunião da Diretoria</b></td><td>2 dez · 14h30–17h30</td><td>Diretores</td><td><span class="pill">A incluir</span></td><td class="v ph">—</td></tr>
+          </tbody>
+          <tfoot><tr><td colspan="4">Subtotal Tauá Alexânia</td><td class="v">—</td></tr></tfoot>
+        </table></div>
+        <p class="note">Quantidades e valores conforme a proposta do Tauá. Linhas sem custo, por estarem incluídas no pacote, podem ficar marcadas como “incluso”.</p>
+      </div>
+      <div class="panel" role="tabpanel" id="pn-res" aria-labelledby="tab-res" hidden>
+        <div class="tbl-wrap"><table class="sm">
+          <thead><tr><th>Grupo de despesa</th><th>Situação</th><th class="v">Valor (R$)</th></tr></thead>
+          <tbody>
+            <tr><td><b>Convidados</b><small>Workshop, dinâmica e palestra</small></td><td><span class="pill">A incluir</span></td><td class="v ph">—</td></tr>
+            <tr><td><b>Tauá Alexânia</b><small>Hospedagem, alimentação e espaços</small></td><td><span class="pill">A incluir</span></td><td class="v ph">—</td></tr>
+          </tbody>
+          <tfoot><tr><td colspan="2">Total do encontro</td><td class="v">—</td></tr></tfoot>
+        </table></div>
+      </div>
     </div>
   </details>
 </main>
@@ -579,6 +627,10 @@ footer img{height:26px;width:auto}
   document.querySelectorAll('a[data-open]').forEach(function(a){
     a.addEventListener('click',function(){var t=document.getElementById(a.getAttribute('href').slice(1));if(t&&t.tagName==='DETAILS')t.open=true;});
   });
+  var tabs=[].slice.call(document.querySelectorAll('.tab'));
+  tabs.forEach(function(b,i){b.addEventListener('click',function(){sel(i)});b.addEventListener('keydown',function(ev){if(ev.key==='ArrowRight'){sel((i+1)%tabs.length);tabs[(i+1)%tabs.length].focus()}if(ev.key==='ArrowLeft'){var j=(i-1+tabs.length)%tabs.length;sel(j);tabs[j].focus()}})});
+  function sel(i){tabs.forEach(function(b,k){var on=k===i;b.setAttribute('aria-selected',on);b.tabIndex=on?0:-1;document.getElementById(b.getAttribute('aria-controls')).hidden=!on;})}
+  sel(0);
   function fromHash(){var h=location.hash.slice(1);if(!h)return;var t=document.getElementById(h);if(t&&t.tagName==='DETAILS'){t.open=true;t.scrollIntoView();}}
   fromHash();window.addEventListener('hashchange',fromHash);
 })();
