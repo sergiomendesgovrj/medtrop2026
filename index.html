@@ -116,6 +116,12 @@ tr.ger{cursor:pointer} tr.ger:hover td{background:var(--soft)}
 .kpi .ano{font-size:12px;margin-top:0}
 .kpi:first-child .ano{color:var(--hero-muted)}
 td .tag{font-size:11px}
+.tabrow{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.tabrow .tabs{margin-bottom:0}
+.gerall{padding:8px 16px;box-shadow:var(--shadow)}
+.cardhead{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:2px 2px 10px}
+.cardhead h3{margin:0;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.cardhead .btn.mini{font-size:12px;padding:4px 12px;margin:0}
 th.fsub{background:var(--soft)}
 .flag{font-size:11px;color:var(--acc2)}
 .muted{color:var(--muted)}
@@ -165,7 +171,7 @@ th.fsub{background:var(--soft)}
   <aside class="kpis side" id="kpis"></aside>
   <div class="content">
 
-  <div class="tabs" id="tabs"></div>
+  <div class="tabrow"><div class="tabs" id="tabs"></div><button class="btn gerall" id="gerAll"></button></div>
   <section id="v-org"></section>
   <section id="v-colab" class="hide"></section>
   </div>
@@ -322,6 +328,7 @@ function render(){
   titulo.textContent = "Painel RH · " + EQUIPS.filter(q=>st.equips.has(q)).join(" + ");
   subtitle.textContent = `Custo mensalizado · ${perLabel} · composição e salário estimado com base em ${MES[REF[st.ano]-1]}/${st.ano}`;
   document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("on", t.dataset.t===st.tab));
+  gerAll.style.display = st.tab==="org" ? "" : "none";
   ["org","colab"].forEach(k=>document.getElementById("v-"+k).classList.toggle("hide", k!==st.tab));
 
   const rows=periodRows(), pp=byPerson(rows), total=rows.reduce((a,r)=>a+r.v,0);
@@ -414,7 +421,7 @@ function vFonte(rows, pp, total){
 
 function vOrg(rows, pp, total){
   const fs=st.orgOpen?fcols():[], byD=group(rows,r=>P[r.key].diretoria);
-  let h=`<div class="card"><table><thead><tr><th>Diretoria › gerência › colaborador <button class="btn mini" id="gerAll">${st.gerClosed.size?"Abrir todas":"Fechar todas"}</button></th><th class="num">Posições</th><th class="num">Salário est. <button class="plus" id="orgPlus" title="${st.orgOpen?"Ocultar":"Mostrar"} custo por fonte pagadora">${st.orgOpen?"−":"+"}</button></th>${fs.map(f=>`<th class="num fsub"><span class="dot" style="background:${FCOL[f]}"></span>${f}</th>`).join("")}<th class="num">Custo mensal</th><th class="num">%</th>${st.orgOpen?"":"<th>Fontes</th>"}</tr></thead><tbody>`;
+  let h=`<div class="card"><table><thead><tr><th>Diretoria › gerência › colaborador</th><th class="num">Posições</th><th class="num">Salário est. <button class="plus" id="orgPlus" title="${st.orgOpen?"Ocultar":"Mostrar"} custo por fonte pagadora">${st.orgOpen?"−":"+"}</button></th>${fs.map(f=>`<th class="num fsub"><span class="dot" style="background:${FCOL[f]}"></span>${f}</th>`).join("")}<th class="num">Custo mensal</th><th class="num">%</th>${st.orgOpen?"":"<th>Fontes</th>"}</tr></thead><tbody>`;
   const salOf = keys => [...keys].reduce((a,k)=>{const s=salarioEst(k); return a+(s?s*P[k].qtd:0);},0);
   byD.forEach(d=>{
     h+=`<tr class="grp"><td>${esc(tc(d.g))}</td><td class="num">${hc(d.keys)}</td><td class="num">${brl(salOf(d.keys))}</td>${fs.map(f=>cm(d.f[f]||0)).join("")}${cm(d.v)}<td class="num">${pct(d.v/(total||1))}</td>${st.orgOpen?"":`<td>${tags(d.f)}</td>`}</tr>`;
@@ -429,6 +436,7 @@ function vOrg(rows, pp, total){
   document.getElementById("v-org").innerHTML=h+(st.orgOpen?`<div class="note" style="margin:8px 4px">Colunas por fonte = custo pago por cada fonte. Valores anuais = custo mensal × 12.</div>`:"");
   orgPlus.onclick=e=>{ e.stopPropagation(); st.orgOpen=!st.orgOpen; render(); };
   document.querySelectorAll("#v-org tr.ger").forEach(tr=>tr.onclick=()=>{ const k=tr.dataset.g; st.gerClosed.has(k)?st.gerClosed.delete(k):st.gerClosed.add(k); render(); });
+  gerAll.textContent=st.gerClosed.size?"Abrir todas":"Fechar todas";
   gerAll.onclick=e=>{ e.stopPropagation(); if(st.gerClosed.size) st.gerClosed.clear(); else document.querySelectorAll("#v-org tr.ger").forEach(tr=>st.gerClosed.add(tr.dataset.g)); render(); };
 }
 
