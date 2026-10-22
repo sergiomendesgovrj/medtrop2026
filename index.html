@@ -112,6 +112,10 @@ tr.det td{background:var(--soft);font-size:12px}
 .plus.mini{width:18px;height:18px;line-height:14px;font-size:13px;margin:0 8px 0 0;vertical-align:-2px}
 tr.ger{cursor:pointer} tr.ger:hover td{background:var(--soft)}
 .btn.mini{font-size:11px;padding:2px 8px;margin-left:8px;text-transform:none;letter-spacing:0;font-weight:500}
+.ano{display:block;font-size:11px;font-weight:400;color:var(--muted);opacity:.85;margin-top:1px}
+.kpi .ano{font-size:12px;margin-top:0}
+.kpi:first-child .ano{color:var(--hero-muted)}
+td .tag{font-size:11px}
 th.fsub{background:var(--soft)}
 .flag{font-size:11px;color:var(--acc2)}
 .muted{color:var(--muted)}
@@ -277,6 +281,8 @@ function stackBar(label, total, f, max){
 }
 const legend = () => `<div class="legend">${fontesVis().map(f=>`<span><span class="dot" style="background:${FCOL[f]}"></span>${f==="A DEFINIR"?"A definir":f}</span>`).join("")}</div>`;
 const tags = f => FONTES.filter(x=>f[x]).map(x=>`<span class="tag" style="background:${FCOL[x]}">${x==="A DEFINIR"?"A def.":x} ${brl(f[x])}</span>`).join("");
+const anoTxt = v => `<span class="ano">${brl(v*12)} /ano</span>`;
+const cm = (v,cls="",two=false) => `<td class="num ${cls}">${v?(two?brl2(v):brl(v))+anoTxt(v):'<span class="muted">—</span>'}</td>`;
 const fcols = () => fontesVis().filter(f=>st.fontes.has(f));
 
 function sortable(id){
@@ -303,7 +309,7 @@ function render(){
   document.querySelectorAll("#equipes .team").forEach(c=>{ const p=c.dataset.p, on=st.projs.has(p);
     const rr=allR.filter(r=>(r.proj==="FMA"?"—":r.proj)===p), v=rr.reduce((a,r)=>a+r.v,0), n=[...new Set(rr.map(r=>r.key))].reduce((a,k)=>a+P[k].qtd,0);
     c.classList.toggle("on",on); c.style.display=(p!=="—"||presentes.has("—"))?"":"none";
-    c.querySelector(".val").textContent=brl(v)+" /mês"; c.querySelector(".meta").textContent=`${n} posições · ${pct(v/allT)} do total`;
+    c.querySelector(".val").innerHTML=brl(v)+" /mês"+(v?anoTxt(v):""); c.querySelector(".meta").textContent=`${n} posições · ${pct(v/allT)} do total`;
     c.querySelector(".shr span").style.width=(v/allT*100).toFixed(1)+"%"; });
   const nOn=EQUIPES.filter(([k])=>st.projs.has(k) && (k!=="—"||presentes.has("—"))).length, nVis=EQUIPES.filter(([k])=>k!=="—"||presentes.has("—")).length;
   todasEq.style.visibility = nOn===nVis ? "hidden" : "visible";
@@ -324,11 +330,11 @@ function render(){
   const rateados = pp.filter(x=>Object.keys(x.f).length>1).length;
   const clt = rows.filter(r=>P[r.key].vinculo==="CLT").reduce((a,r)=>a+r.v,0);
   kpis.innerHTML = [
-    ["Custo mensal", brl(total), total? `${pct(clt/total)} CLT · ${pct(1-clt/total)} PJ` : "sem dados neste período"],
+    ["Custo mensal", brl(total)+anoTxt(total), total? `${pct(clt/total)} CLT · ${pct(1-clt/total)} PJ` : "sem dados neste período"],
     ["Posições", head.toLocaleString("pt-BR"), `${head-vagas} titulares · ${vagas} vagas sem titular`],
     ["Salários estimados", brl(sal), "CLT estimado · PJ = contrato"],
-    ["Encargos, provisões e benefícios", brl(total-sal), `${pct((total-sal)/(total||1))} do custo`],
-    ["Custo médio por posição", brl(total/(head||1)), "custo mensal ÷ posições"],
+    ["Encargos, provisões e benefícios", brl(total-sal)+anoTxt(total-sal), `${pct((total-sal)/(total||1))} do custo`],
+    ["Custo médio por posição", brl(total/(head||1))+anoTxt(total/(head||1)), "custo mensal ÷ posições"],
     ["Rateados entre fontes", rateados, "pessoas com mais de uma fonte"]
   ].map(([l,v,s])=>`<div class="kpi"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${s}</div></div>`).join("");
 
@@ -373,14 +379,14 @@ function vColab(rows, pp, total){
     h+=`<tr class="click" data-k="${x.key}"><td data-s="${esc(p.nome)}">${esc(tc(p.nome))}${p.vaga?' <span class="flag">vaga</span>':''}${p.qtd>1?` <span class="muted">×${p.qtd}</span>`:''}${Object.keys(x.f).length>1?' <span class="flag">rateado</span>':''}</td>
     <td>${esc(tc(p.funcao))}</td><td>${p.vinculo}</td><td>${esc(tc(p.gerencia))}${p.origem==="inferido"?' <span class="flag">*</span>':''}</td><td>${esc(tc(p.diretoria))}</td><td>${tags(x.f)}</td>
     <td class="num" data-s="${s||0}">${brl(s)}${p.qtd>1?'<span class="muted"> /pos.</span>':''}</td>
-    <td class="num" data-s="${x.v}">${brl2(x.v)}</td><td class="num" data-s="${x.v}">${pct(x.v/(total||1))}</td></tr>`;
+    <td class="num" data-s="${x.v}">${brl2(x.v)}${anoTxt(x.v)}</td><td class="num" data-s="${x.v}">${pct(x.v/(total||1))}</td></tr>`;
     if(st.open.has(x.key)){
       const rr=refR.filter(r=>r.key===x.key);
       const compRows = rr.length ? `<table><tr><th>Fonte · centro de custo</th>${COMP.map(c=>`<th class="num">${c[1]}</th>`).join("")}<th class="num">Custo ${MES[REF[st.ano]-1]}</th></tr>${rr.map(r=>`<tr><td>${r.fonte} · ${esc(r.desc)} · proj ${PROJ[r.proj]||r.proj}${r.projBase&&r.projBase!==r.proj?` <span class="flag">na planilha: ${r.projBase}</span>`:''}</td>${COMP.map(([k])=>`<td class="num">${brl2(r.comp[k]||null)}</td>`).join("")}<td class="num">${brl2(r.custo)}</td></tr>`).join("")}</table>` : '<span class="muted">Sem composição no mês de referência.</span>';
       h+=`<tr class="det" data-k="${x.key}"><td colspan="9"><div><b>Chapa:</b> ${esc(p.chapa||"—")} · <b>Empresa (PJ):</b> ${esc(p.empresa||"—")} · <b>Meio/fim:</b> ${p.meiofim} · <b>Atuação:</b> ${esc(p.atuacao)} · <b>Cadastro:</b> ${esc(p.origem)}</div>
       <div style="margin:6px 0"><b>Período selecionado por centro de custo:</b> ${Object.entries(x.cc).map(([c,v])=>`${esc(c)}: <b>${brl2(v)}</b>`).join(" · ")}</div>${compRows}</td></tr>`; }
   });
-  h+=`<tr class="tot"><td colspan="6">Total (${list.length} linhas)</td><td class="num">${brl(sSal)}</td><td class="num">${brl2(total)}</td><td class="num">100%</td></tr></tbody></table>
+  h+=`<tr class="tot"><td colspan="6">Total (${list.length} linhas)</td><td class="num">${brl(sSal)}</td><td class="num">${brl2(total)}${anoTxt(total)}</td><td class="num">100%</td></tr></tbody></table>
   <div class="note">Clique numa linha para abrir a composição do custo e o rateio por centro de custo. * gerência/diretoria inferida (pessoa não consta da Tabela Salarial 2025). Salário est. = salários e encargos ÷ 1,307; para PJ, o valor do contrato sem benefícios.</div></div>`;
   const el=document.getElementById("v-colab"); el.innerHTML=h; sortable("tColab");
   el.querySelectorAll("tr.click").forEach(tr=>tr.onclick=()=>{ const k=tr.dataset.k; st.open.has(k)?st.open.delete(k):st.open.add(k); render(); });
@@ -408,19 +414,19 @@ function vFonte(rows, pp, total){
 
 function vOrg(rows, pp, total){
   const fs=st.orgOpen?fcols():[], byD=group(rows,r=>P[r.key].diretoria);
-  let h=`<div class="card"><table><thead><tr><th>Diretoria › gerência › colaborador <button class="btn mini" id="gerAll">${st.gerClosed.size?"Abrir todas":"Fechar todas"}</button></th><th class="num">Posições</th><th class="num">Salário est. <button class="plus" id="orgPlus" title="${st.orgOpen?"Ocultar":"Mostrar"} custo por fonte pagadora">${st.orgOpen?"−":"+"}</button></th>${fs.map(f=>`<th class="num fsub"><span class="dot" style="background:${FCOL[f]}"></span>${f}</th>`).join("")}<th class="num">Custo mensal</th><th class="num">%</th></tr></thead><tbody>`;
+  let h=`<div class="card"><table><thead><tr><th>Diretoria › gerência › colaborador <button class="btn mini" id="gerAll">${st.gerClosed.size?"Abrir todas":"Fechar todas"}</button></th><th class="num">Posições</th><th class="num">Salário est. <button class="plus" id="orgPlus" title="${st.orgOpen?"Ocultar":"Mostrar"} custo por fonte pagadora">${st.orgOpen?"−":"+"}</button></th>${fs.map(f=>`<th class="num fsub"><span class="dot" style="background:${FCOL[f]}"></span>${f}</th>`).join("")}<th class="num">Custo mensal</th><th class="num">%</th>${st.orgOpen?"":"<th>Fontes</th>"}</tr></thead><tbody>`;
   const salOf = keys => [...keys].reduce((a,k)=>{const s=salarioEst(k); return a+(s?s*P[k].qtd:0);},0);
   byD.forEach(d=>{
-    h+=`<tr class="grp"><td>${esc(tc(d.g))}</td><td class="num">${hc(d.keys)}</td><td class="num">${brl(salOf(d.keys))}</td>${fs.map(f=>`<td class="num">${brl(d.f[f]||null)}</td>`).join("")}<td class="num">${brl(d.v)}</td><td class="num">${pct(d.v/(total||1))}</td></tr>`;
+    h+=`<tr class="grp"><td>${esc(tc(d.g))}</td><td class="num">${hc(d.keys)}</td><td class="num">${brl(salOf(d.keys))}</td>${fs.map(f=>cm(d.f[f]||0)).join("")}${cm(d.v)}<td class="num">${pct(d.v/(total||1))}</td>${st.orgOpen?"":`<td>${tags(d.f)}</td>`}</tr>`;
     group(rows.filter(r=>P[r.key].diretoria===d.g), r=>P[r.key].gerencia).forEach(g=>{
       const gk=d.g+"|"+g.g, aberta=!st.gerClosed.has(gk);
-      h+=`<tr class="ger" data-g="${esc(gk)}"><td style="padding-left:22px"><button class="plus mini" tabindex="-1">${aberta?"−":"+"}</button><b>${esc(tc(g.g))}</b></td><td class="num">${hc(g.keys)}</td><td class="num">${brl(salOf(g.keys))}</td>${fs.map(f=>`<td class="num">${brl(g.f[f]||null)}</td>`).join("")}<td class="num">${brl(g.v)}</td><td class="num">${pct(g.v/(total||1))}</td></tr>`;
+      h+=`<tr class="ger" data-g="${esc(gk)}"><td style="padding-left:22px"><button class="plus mini" tabindex="-1">${aberta?"−":"+"}</button><b>${esc(tc(g.g))}</b></td><td class="num">${hc(g.keys)}</td><td class="num">${brl(salOf(g.keys))}</td>${fs.map(f=>cm(g.f[f]||0)).join("")}${cm(g.v)}<td class="num">${pct(g.v/(total||1))}</td>${st.orgOpen?"":`<td>${tags(g.f)}</td>`}</tr>`;
       if(aberta) byPerson(rows.filter(r=>P[r.key].gerencia===g.g && P[r.key].diretoria===d.g)).sort((a,b)=>b.v-a.v).forEach(x=>{ const p=P[x.key], s=salarioEst(x.key);
-        h+=`<tr><td style="padding-left:58px" class="muted">${esc(tc(p.nome))} · ${esc(tc(p.funcao))}</td><td class="num muted">${p.qtd}</td><td class="num muted">${brl(s?s*p.qtd:null)}</td>${fs.map(f=>`<td class="num muted">${brl(x.f[f]||null)}</td>`).join("")}<td class="num muted">${brl2(x.v)}</td><td></td></tr>`; });
+        h+=`<tr><td style="padding-left:58px" class="muted">${esc(tc(p.nome))} · ${esc(tc(p.funcao))}</td><td class="num muted">${p.qtd}</td><td class="num muted">${brl(s?s*p.qtd:null)}</td>${fs.map(f=>cm(x.f[f]||0,"muted")).join("")}${cm(x.v,"muted",true)}<td></td>${st.orgOpen?"":`<td>${tags(x.f)}</td>`}</tr>`; });
     });
   });
-  h+=`<tr class="tot"><td>Total</td><td class="num">${pp.reduce((a,x)=>a+P[x.key].qtd,0)}</td><td class="num">${brl(salOf(new Set(pp.map(x=>x.key))))}</td>${fs.map(f=>`<td class="num">${brl(rows.filter(r=>r.fonte===f).reduce((a,r)=>a+r.v,0)||null)}</td>`).join("")}<td class="num">${brl(total)}</td><td class="num">100%</td></tr></tbody></table></div>`;
-  document.getElementById("v-org").innerHTML=h+(st.orgOpen?`<div class="note" style="margin:8px 4px">Colunas por fonte = custo mensal pago por cada fonte.</div>`:"");
+  h+=`<tr class="tot"><td>Total</td><td class="num">${pp.reduce((a,x)=>a+P[x.key].qtd,0)}</td><td class="num">${brl(salOf(new Set(pp.map(x=>x.key))))}</td>${fs.map(f=>cm(rows.filter(r=>r.fonte===f).reduce((a,r)=>a+r.v,0))).join("")}${cm(total)}<td class="num">100%</td>${st.orgOpen?"":"<td></td>"}</tr></tbody></table></div>`;
+  document.getElementById("v-org").innerHTML=h+(st.orgOpen?`<div class="note" style="margin:8px 4px">Colunas por fonte = custo pago por cada fonte. Valores anuais = custo mensal × 12.</div>`:"");
   orgPlus.onclick=e=>{ e.stopPropagation(); st.orgOpen=!st.orgOpen; render(); };
   document.querySelectorAll("#v-org tr.ger").forEach(tr=>tr.onclick=()=>{ const k=tr.dataset.g; st.gerClosed.has(k)?st.gerClosed.delete(k):st.gerClosed.add(k); render(); });
   gerAll.onclick=e=>{ e.stopPropagation(); if(st.gerClosed.size) st.gerClosed.clear(); else document.querySelectorAll("#v-org tr.ger").forEach(tr=>st.gerClosed.add(tr.dataset.g)); render(); };
