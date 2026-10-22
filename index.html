@@ -20,17 +20,40 @@
 }
 *{box-sizing:border-box}
 body{margin:0;background:linear-gradient(180deg,var(--bg) 0,var(--bg2) 100%) fixed;color:var(--ink);font:14px/1.45 "Segoe UI",system-ui,-apple-system,Roboto,sans-serif;min-height:100vh}
-header{background:linear-gradient(120deg,var(--hero1),var(--hero2));color:var(--hero-ink);padding:22px 28px 64px;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between}
+header{background:linear-gradient(120deg,var(--hero1),var(--hero2));color:var(--hero-ink);padding:22px 28px 58px;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between}
 header .kicker{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--hero-muted);margin-bottom:4px}
 h1{margin:0;font-size:26px;letter-spacing:-.01em;font-weight:650}
 .sub{color:var(--hero-muted);font-size:13px}
-.wrap{padding:0 28px 48px;margin-top:-46px}
+.wrap{padding:0 28px 48px;margin-top:-34px}
 /* painel de filtros */
 .bar{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);margin-bottom:16px;overflow:hidden}
 .equipe{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center;padding:14px 18px;background:var(--acc-soft);border-bottom:1px solid var(--line)}
 .eqlab{font-size:11px;color:var(--acc);line-height:1.25;text-transform:uppercase;letter-spacing:.08em;font-weight:600;min-width:200px}
 .eqlab b{display:block;color:var(--ink);font-size:16px;letter-spacing:0;text-transform:none;font-weight:650}
 .limpar{margin-left:auto}
+.teams-wrap{flex:1 1 100%;margin-top:14px}
+.teams-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:10px}
+.teams-head .tk{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--hero-muted)}
+.teams-head .tt{display:block;font-size:18px;font-weight:650;color:var(--hero-ink)}
+.linkbtn{background:none;border:1px solid rgba(255,255,255,.45);color:var(--hero-ink);border-radius:999px;padding:5px 14px;font:inherit;font-size:13px;cursor:pointer}
+.linkbtn:hover{background:rgba(255,255,255,.14)}
+.teams{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.team{position:relative;border-radius:16px;padding:16px 18px 14px;cursor:pointer;user-select:none;transition:transform .12s,box-shadow .12s,background .12s;
+  background:rgba(255,255,255,.10);border:1.5px dashed rgba(255,255,255,.45);color:var(--hero-ink)}
+.team:hover{transform:translateY(-2px);background:rgba(255,255,255,.16)}
+.team.on{background:var(--card);border:1.5px solid transparent;color:var(--ink);box-shadow:0 8px 22px rgba(15,30,50,.22)}
+.team .chk{position:absolute;top:14px;right:14px;width:24px;height:24px;border-radius:50%;border:2px solid rgba(255,255,255,.7);display:grid;place-items:center;font-size:14px;font-weight:700;color:transparent}
+.team.on .chk{background:var(--acc);border-color:var(--acc);color:var(--acc-ink)}
+.team .nm{font-size:22px;font-weight:700;letter-spacing:-.01em;line-height:1.1}
+.team .cd{font-size:12px;opacity:.75;margin-top:2px}
+.team .val{font-size:20px;font-weight:650;margin-top:12px;font-variant-numeric:tabular-nums}
+.team .meta{font-size:12px;opacity:.8}
+.team .shr{height:5px;border-radius:3px;background:rgba(127,127,127,.22);margin-top:10px;overflow:hidden}
+.team .shr span{display:block;height:100%;background:var(--acc)}
+.team:not(.on) .shr span{background:rgba(255,255,255,.7)}
+.team .so{position:absolute;top:44px;right:12px;font-size:11px;border:0;background:none;color:inherit;opacity:.65;cursor:pointer;text-decoration:underline;font:inherit;font-size:11px}
+.team .so:hover{opacity:1}
+.barhead{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;border-bottom:1px solid var(--line);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700}
 .groups{display:grid;grid-template-columns:auto minmax(260px,1.3fr) minmax(320px,1.5fr);}
 .fgroup{padding:12px 18px 14px;display:flex;flex-wrap:wrap;gap:10px 14px;align-content:flex-start;border-left:1px solid var(--line)}
 .fgroup:first-child{border-left:0}
@@ -53,6 +76,16 @@ select:focus,input:focus{outline:2px solid var(--acc);outline-offset:1px;backgro
 .btn:hover{border-color:var(--acc);color:var(--acc)}
 /* KPIs */
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:18px}
+.main{display:grid;grid-template-columns:230px minmax(0,1fr);gap:18px;align-items:start}
+.kpis.side{grid-template-columns:1fr;margin-bottom:0;position:sticky;top:12px}
+.content{min-width:0}
+#barhead{cursor:pointer;gap:10px;justify-content:flex-start}
+#barhead .bt{color:var(--ink)}
+#barhead .plus{margin:0}
+.fsum{font-size:12px;text-transform:none;letter-spacing:0;font-weight:500;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:1}
+.bar.closed #fgroups{display:none}
+.bar.closed .barhead{border-bottom:0}
+@media (max-width:900px){.main{grid-template-columns:1fr}.kpis.side{grid-template-columns:repeat(2,1fr);position:static}}
 .kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 16px;box-shadow:var(--shadow);border-top:3px solid var(--acc)}
 .kpi:first-child{background:linear-gradient(135deg,var(--hero1),var(--hero2));color:var(--hero-ink);border-color:transparent}
 .kpi:first-child .l,.kpi:first-child .s{color:var(--hero-muted)}
@@ -76,6 +109,9 @@ tr.det td{background:var(--soft);font-size:12px}
 .tag{display:inline-block;font-size:11px;padding:1px 7px;border-radius:999px;margin:1px 3px 1px 0;color:var(--chip-on);white-space:nowrap}
 .plus{margin-left:6px;width:20px;height:20px;border-radius:50%;border:1px solid var(--acc);background:var(--card);color:var(--acc);font-weight:700;line-height:16px;padding:0;cursor:pointer}
 .plus:hover{background:var(--acc);color:#fff}
+.plus.mini{width:18px;height:18px;line-height:14px;font-size:13px;margin:0 8px 0 0;vertical-align:-2px}
+tr.ger{cursor:pointer} tr.ger:hover td{background:var(--soft)}
+.btn.mini{font-size:11px;padding:2px 8px;margin-left:8px;text-transform:none;letter-spacing:0;font-weight:500}
 th.fsub{background:var(--soft)}
 .flag{font-size:11px;color:var(--acc2)}
 .muted{color:var(--muted)}
@@ -93,15 +129,18 @@ th.fsub{background:var(--soft)}
     <div class="sub" id="subtitle"></div>
   </div>
   <div class="sub">Fontes: folhas MAZ nov/2026 e 2027 (jan–abr) · orçamento FMA 2026</div>
+  <section class="teams-wrap">
+    <div class="teams-head">
+      <div><span class="tk">Equipe</span><span class="tt">Institucional · Projetos · Belém</span></div>
+      <button class="linkbtn" id="todasEq">Selecionar todas</button>
+    </div>
+    <div class="teams" id="equipes"></div>
+  </section>
 </header>
 <div class="wrap">
   <div class="bar">
-    <div class="equipe">
-      <div class="eqlab">Equipe<b>Institucional / Projetos / Belém</b></div>
-      <div class="chips big" id="equipes"></div>
-      <button class="btn limpar" id="limpar">Limpar filtros</button>
-    </div>
-    <div class="groups">
+    <div class="barhead" id="barhead"><button class="plus" id="filtPlus" title="Mostrar filtros">+</button><span class="bt">Filtros</span><span class="fsum" id="fsum"></span><button class="btn limpar" id="limpar">Limpar filtros</button></div>
+    <div class="groups" id="fgroups">
       <div class="fgroup"><h4>Período</h4>
         <div class="f"><label>Ano</label><div class="seg" id="ano"></div></div>
         <div class="f"><label>Mês</label><select id="mes"></select></div>
@@ -118,11 +157,15 @@ th.fsub{background:var(--soft)}
     </div>
   </div>
 
-  <div class="kpis" id="kpis"></div>
+  <div class="main">
+  <aside class="kpis side" id="kpis"></aside>
+  <div class="content">
 
   <div class="tabs" id="tabs"></div>
   <section id="v-org"></section>
   <section id="v-colab" class="hide"></section>
+  </div>
+  </div>
 </div>
 
 <script>
@@ -139,7 +182,7 @@ const REF = {2026:11, 2027:3};
 const COMP = [["se","Salários e encargos"],["d13","Provisão 13º"],["fer","Provisão 1/3 férias"],["sau","Plano de saúde"],["odo","Odonto"],["va","VA/VR"],["vt","VT"],["seg","Seguro de vida"],["bsf","Benef. social familiar"]];
 const PROJ = {"000":"000 - Time Projetos","003":"003 · 100% MAZ","222":"222 · Institucional","FMA":"3 · FMA (despesas com pessoal)","—":"Não informado"};
 
-const st = {ano:2026, mes:"11", fontes:new Set(FONTES), busca:"", dir:"", ger:"", vin:"", mf:"", proj:"", projs:new Set(["222","000","003","—","FMA"]), enc:30.7, orgOpen:false, equips:new Set(["MAZ"]), tab:"org", open:new Set()};
+const st = {ano:2026, mes:"11", fontes:new Set(FONTES), busca:"", dir:"", ger:"", vin:"", mf:"", proj:"", projs:new Set(["222","000","003","—","FMA"]), enc:30.7, orgOpen:false, gerClosed:new Set(), filtOpen:false, equips:new Set(["MAZ"]), tab:"org", open:new Set()};
 
 const brl = v => (v==null||isNaN(v)) ? "—" : v.toLocaleString("pt-BR",{style:"currency",currency:"BRL",maximumFractionDigits:0});
 const brl2 = v => (v==null||isNaN(v)) ? "—" : v.toLocaleString("pt-BR",{style:"currency",currency:"BRL",minimumFractionDigits:2});
@@ -204,18 +247,24 @@ function initControls(){
   const vals = k => [...new Set(Object.values(P).map(p=>p[k]))].sort();
   opts(fVin, vals("vinculo"), "Todos"); opts(fMF, vals("meiofim"), "Todos");
   const eqp=document.getElementById("equipes");
-  EQUIPES.forEach(([k,l,s])=>{ const c=document.createElement("span"); c.className="chip"; c.dataset.p=k; c.innerHTML=`${l}<small>${s}</small>`;
-    c.onclick=()=>{ const ks=k==="—"?["—","FMA"]:[k]; const on=st.projs.has(k);
-      const visOn=[...document.querySelectorAll("#equipes .chip")].filter(e=>e.style.display!=="none" && st.projs.has(e.dataset.p));
+  EQUIPES.forEach(([k,l,s])=>{ const c=document.createElement("div"); c.className="team"; c.dataset.p=k;
+    c.innerHTML=`<span class="chk">✓</span><div class="nm">${l}</div><div class="cd">${s}</div><div class="val"></div><div class="meta"></div><div class="shr"><span></span></div><button class="so" title="Mostrar só esta equipe">só esta</button>`;
+    const ks=k==="—"?["—","FMA"]:[k];
+    c.onclick=()=>{ const on=st.projs.has(k);
+      const visOn=[...document.querySelectorAll("#equipes .team")].filter(e=>e.style.display!=="none" && st.projs.has(e.dataset.p));
       if(on && visOn.length<=1) return;
-      ks.forEach(x=>on?st.projs.delete(x):st.projs.add(x)); render(); }; eqp.appendChild(c); });
+      ks.forEach(x=>on?st.projs.delete(x):st.projs.add(x)); render(); };
+    c.querySelector(".so").onclick=e=>{ e.stopPropagation(); st.projs=new Set(ks); render(); };
+    eqp.appendChild(c); });
+  barhead.onclick=e=>{ if(e.target.id==="limpar") return; st.filtOpen=!st.filtOpen; render(); };
+  todasEq.onclick=()=>{ st.projs=new Set(["222","000","003","—","FMA"]); render(); };
   document.getElementById("nomes").innerHTML = Object.values(P).map(p=>`<option value="${esc(p.nome)}">`).join("");
   busca.oninput=e=>{st.busca=e.target.value; render();};
   fVin.onchange=e=>{st.vin=e.target.value; render();}; fMF.onchange=e=>{st.mf=e.target.value; render();};
   const eq=document.getElementById("equips");
   EQUIPS.forEach(q=>{ const c=document.createElement("span"); c.className="chip"; c.textContent=q; c.dataset.q=q; c.onclick=()=>{ st.equips.has(q)?st.equips.delete(q):st.equips.add(q); if(!st.equips.size) st.equips.add(q); const ms=monthsOf(st.ano); if(st.mes!=="media" && !ms.includes(Number(st.mes))) st.mes=String(ms.includes(REF[st.ano])?REF[st.ano]:ms[ms.length-1]); render(); }; eq.appendChild(c); });
   mes.onchange=e=>{st.mes=e.target.value; render();};
-  limpar.onclick=()=>{ Object.assign(st,{busca:"",dir:"",ger:"",vin:"",mf:"",proj:"",projs:new Set(["222","000","003","—","FMA"]),fontes:new Set(FONTES), equips:new Set(["MAZ"])}); busca.value=""; [fVin,fMF].forEach(s=>s.value=""); render(); };
+  limpar.onclick=(e)=>{ e&&e.stopPropagation(); Object.assign(st,{busca:"",dir:"",ger:"",vin:"",mf:"",proj:"",projs:new Set(["222","000","003","—","FMA"]),fontes:new Set(FONTES), equips:new Set(["MAZ"])}); busca.value=""; [fVin,fMF].forEach(s=>s.value=""); render(); };
   const T=[["org","Diretoria e gerência"],["colab","Por colaborador"]];
   tabs.innerHTML = T.map(([k,l])=>`<button class="tab" data-t="${k}">${l}</button>`).join("");
   tabs.onclick=e=>{ const t=e.target.dataset.t; if(t){st.tab=t; render();} };
@@ -245,7 +294,19 @@ function sortable(id){
 function render(){
   document.querySelectorAll("#ano button").forEach(b=>b.classList.toggle("on", Number(b.textContent)===st.ano));
   const presentes=new Set(R.filter(r=>r.ano===st.ano && st.equips.has(P[r.key].equip)).map(r=>r.proj==="FMA"?"—":r.proj));
-  document.querySelectorAll("#equipes .chip").forEach(c=>{ const on=st.projs.has(c.dataset.p); c.classList.toggle("on",on); c.style.background=on?"var(--acc)":""; c.style.display=(c.dataset.p!=="—"||presentes.has("—"))?"":"none"; });
+  document.querySelector(".bar").classList.toggle("closed",!st.filtOpen);
+  filtPlus.textContent=st.filtOpen?"−":"+"; filtPlus.title=st.filtOpen?"Ocultar filtros":"Mostrar filtros";
+  const fv=fontesVis(), fsel=fv.filter(f=>st.fontes.has(f));
+  fsum.textContent = st.filtOpen ? "" : [st.mes==="media"?`média ${st.ano}`:`${MES[Number(st.mes)-1]}/${st.ano}`, [...st.equips].join(" + "), fsel.length===fv.length?"todas as fontes":fsel.join(", "), st.busca?`“${st.busca}”`:"", st.vin||"", st.mf?tc(st.mf):""].filter(Boolean).join("  ·  ");
+  const keep=st.projs; st.projs=new Set(["222","000","003","—","FMA"]); const allR=periodRows(); st.projs=keep;
+  const allT=allR.reduce((a,r)=>a+r.v,0)||1;
+  document.querySelectorAll("#equipes .team").forEach(c=>{ const p=c.dataset.p, on=st.projs.has(p);
+    const rr=allR.filter(r=>(r.proj==="FMA"?"—":r.proj)===p), v=rr.reduce((a,r)=>a+r.v,0), n=[...new Set(rr.map(r=>r.key))].reduce((a,k)=>a+P[k].qtd,0);
+    c.classList.toggle("on",on); c.style.display=(p!=="—"||presentes.has("—"))?"":"none";
+    c.querySelector(".val").textContent=brl(v)+" /mês"; c.querySelector(".meta").textContent=`${n} posições · ${pct(v/allT)} do total`;
+    c.querySelector(".shr span").style.width=(v/allT*100).toFixed(1)+"%"; });
+  const nOn=EQUIPES.filter(([k])=>st.projs.has(k) && (k!=="—"||presentes.has("—"))).length, nVis=EQUIPES.filter(([k])=>k!=="—"||presentes.has("—")).length;
+  todasEq.style.visibility = nOn===nVis ? "hidden" : "visible";
   document.querySelectorAll("#equips .chip").forEach(c=>{ const on=st.equips.has(c.dataset.q); c.classList.toggle("on",on); c.style.background=on?"var(--acc)":""; });
   document.querySelectorAll("#fontes .chip").forEach(c=>{ const on=st.fontes.has(c.dataset.f); c.classList.toggle("on",on); c.style.background=on?FCOL[c.dataset.f]:""; c.style.display=fontesVis().includes(c.dataset.f)?"":"none"; });
   const ms=monthsOf(st.ano);
@@ -347,19 +408,22 @@ function vFonte(rows, pp, total){
 
 function vOrg(rows, pp, total){
   const fs=st.orgOpen?fcols():[], byD=group(rows,r=>P[r.key].diretoria);
-  let h=`<div class="card"><table><thead><tr><th>Diretoria › gerência › colaborador</th><th class="num">Posições</th><th class="num">Salário est. <button class="plus" id="orgPlus" title="${st.orgOpen?"Ocultar":"Mostrar"} custo por fonte pagadora">${st.orgOpen?"−":"+"}</button></th>${fs.map(f=>`<th class="num fsub"><span class="dot" style="background:${FCOL[f]}"></span>${f}</th>`).join("")}<th class="num">Custo mensal</th><th class="num">%</th></tr></thead><tbody>`;
+  let h=`<div class="card"><table><thead><tr><th>Diretoria › gerência › colaborador <button class="btn mini" id="gerAll">${st.gerClosed.size?"Abrir todas":"Fechar todas"}</button></th><th class="num">Posições</th><th class="num">Salário est. <button class="plus" id="orgPlus" title="${st.orgOpen?"Ocultar":"Mostrar"} custo por fonte pagadora">${st.orgOpen?"−":"+"}</button></th>${fs.map(f=>`<th class="num fsub"><span class="dot" style="background:${FCOL[f]}"></span>${f}</th>`).join("")}<th class="num">Custo mensal</th><th class="num">%</th></tr></thead><tbody>`;
   const salOf = keys => [...keys].reduce((a,k)=>{const s=salarioEst(k); return a+(s?s*P[k].qtd:0);},0);
   byD.forEach(d=>{
     h+=`<tr class="grp"><td>${esc(tc(d.g))}</td><td class="num">${hc(d.keys)}</td><td class="num">${brl(salOf(d.keys))}</td>${fs.map(f=>`<td class="num">${brl(d.f[f]||null)}</td>`).join("")}<td class="num">${brl(d.v)}</td><td class="num">${pct(d.v/(total||1))}</td></tr>`;
     group(rows.filter(r=>P[r.key].diretoria===d.g), r=>P[r.key].gerencia).forEach(g=>{
-      h+=`<tr><td style="padding-left:22px"><b>${esc(tc(g.g))}</b></td><td class="num">${hc(g.keys)}</td><td class="num">${brl(salOf(g.keys))}</td>${fs.map(f=>`<td class="num">${brl(g.f[f]||null)}</td>`).join("")}<td class="num">${brl(g.v)}</td><td class="num">${pct(g.v/(total||1))}</td></tr>`;
-      byPerson(rows.filter(r=>P[r.key].gerencia===g.g && P[r.key].diretoria===d.g)).sort((a,b)=>b.v-a.v).forEach(x=>{ const p=P[x.key], s=salarioEst(x.key);
-        h+=`<tr><td style="padding-left:44px" class="muted">${esc(tc(p.nome))} · ${esc(tc(p.funcao))}</td><td class="num muted">${p.qtd}</td><td class="num muted">${brl(s?s*p.qtd:null)}</td>${fs.map(f=>`<td class="num muted">${brl(x.f[f]||null)}</td>`).join("")}<td class="num muted">${brl2(x.v)}</td><td></td></tr>`; });
+      const gk=d.g+"|"+g.g, aberta=!st.gerClosed.has(gk);
+      h+=`<tr class="ger" data-g="${esc(gk)}"><td style="padding-left:22px"><button class="plus mini" tabindex="-1">${aberta?"−":"+"}</button><b>${esc(tc(g.g))}</b></td><td class="num">${hc(g.keys)}</td><td class="num">${brl(salOf(g.keys))}</td>${fs.map(f=>`<td class="num">${brl(g.f[f]||null)}</td>`).join("")}<td class="num">${brl(g.v)}</td><td class="num">${pct(g.v/(total||1))}</td></tr>`;
+      if(aberta) byPerson(rows.filter(r=>P[r.key].gerencia===g.g && P[r.key].diretoria===d.g)).sort((a,b)=>b.v-a.v).forEach(x=>{ const p=P[x.key], s=salarioEst(x.key);
+        h+=`<tr><td style="padding-left:58px" class="muted">${esc(tc(p.nome))} · ${esc(tc(p.funcao))}</td><td class="num muted">${p.qtd}</td><td class="num muted">${brl(s?s*p.qtd:null)}</td>${fs.map(f=>`<td class="num muted">${brl(x.f[f]||null)}</td>`).join("")}<td class="num muted">${brl2(x.v)}</td><td></td></tr>`; });
     });
   });
   h+=`<tr class="tot"><td>Total</td><td class="num">${pp.reduce((a,x)=>a+P[x.key].qtd,0)}</td><td class="num">${brl(salOf(new Set(pp.map(x=>x.key))))}</td>${fs.map(f=>`<td class="num">${brl(rows.filter(r=>r.fonte===f).reduce((a,r)=>a+r.v,0)||null)}</td>`).join("")}<td class="num">${brl(total)}</td><td class="num">100%</td></tr></tbody></table></div>`;
   document.getElementById("v-org").innerHTML=h+(st.orgOpen?`<div class="note" style="margin:8px 4px">Colunas por fonte = custo mensal pago por cada fonte.</div>`:"");
   orgPlus.onclick=e=>{ e.stopPropagation(); st.orgOpen=!st.orgOpen; render(); };
+  document.querySelectorAll("#v-org tr.ger").forEach(tr=>tr.onclick=()=>{ const k=tr.dataset.g; st.gerClosed.has(k)?st.gerClosed.delete(k):st.gerClosed.add(k); render(); });
+  gerAll.onclick=e=>{ e.stopPropagation(); if(st.gerClosed.size) st.gerClosed.clear(); else document.querySelectorAll("#v-org tr.ger").forEach(tr=>st.gerClosed.add(tr.dataset.g)); render(); };
 }
 
 function vMes(){
