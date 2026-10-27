@@ -292,6 +292,13 @@ th.fsub{background:var(--soft)}
 .dent ul{margin:4px 0 0}
 .dent a{text-decoration:none;font-weight:700}
 
+details.dent>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--op);margin:0 0 4px}
+details.dent>summary::-webkit-details-marker{display:none}
+details.dent>summary .pl{width:20px;height:20px;border-radius:50%;background:var(--op);color:#fff;display:inline-grid;place-items:center;font-size:14px;line-height:1;flex:none}
+details.dent>summary .pl::before{content:"+"}
+details.dent[open]>summary .pl::before{content:"−"}
+details.dent>summary .cnt{color:#6b7280;font-weight:600;letter-spacing:0}
+
 </style>
 </head>
 <body>
@@ -843,7 +850,7 @@ function renderTree(){
 }
 function renderDetalhe(){ const ordem=ordemF();
   const nomeDe = id => { const c=CARGOS.find(x=>x.id===id); return c? c.cargo : "—"; };
-  detIdx.innerHTML = ordem.map(c=>`<a data-go="${c.id}">${esc(c.cargo)}</a>`).join("");
+  detIdx.innerHTML = ordem.map(c=>`<a data-dgo="${c.id}">${esc(c.cargo)}</a>`).join("");
   const lista = (arr, vazio) => arr.length ? `<ul>${arr.map(a=>`<li>${esc(a)}</li>`).join("")}</ul>` : `<div class="vazio">${vazio}</div>`;
   detList.innerHTML = ordem.map(c=>{ const subs=CARGOS.filter(x=>x.pai===c.id).map(x=>x.cargo+(x.staff?" (assessoria)":""));
     return `<section class="dcard" id="det-${c.id}">
@@ -853,12 +860,12 @@ function renderDetalhe(){ const ordem=ordemF();
         <div class="full dmiss"><h4>Missão do cargo${c.proposta?" · proposta, a validar":""}</h4><p>${esc(c.missao)}</p></div>
         <div><h4>Superior imediato</h4><p>${c.pai?esc(nomeDe(c.pai))+(c.staff?" (assessoria direta)":"")+(byId(c.pai).vaga&&byId(c.pai).interino?" — vaga, interinamente "+esc(byId(c.pai).interino):""):"Presidência"}</p></div>
         <div><h4>Subordinados imediatos</h4><p>${subs.length?subs.map(esc).join("; "):"Não há"}</p></div>
-        <div class="full"><h4>Principais atribuições</h4>${lista(c.atrib,"Não informado na planilha")}</div>${nEnt(c.id)?`<div class="full dent"><h4>Exemplos de entregas</h4>${entHTML(c.id)}</div>`:""}
+        <div class="full"><h4>Principais atribuições</h4>${lista(c.atrib,"Não informado na planilha")}</div>${nEnt(c.id)?`<details class="full dent"><summary><span class="pl"></span>Exemplos de entregas <span class="cnt">(${nEnt(c.id)})</span></summary>${entHTML(c.id)}</details>`:""}
         <div><h4>Formação e experiência</h4>${lista(c.formacao,"Não informado na planilha")}</div>
         <div><h4>Conhecimentos técnicos</h4>${lista(c.conhec,"Não informado na planilha")}</div>
         <div class="full src">Fonte: ${esc(c.fonte)} — planilha “Descrições dos Cargos – Papéis e Responsabilidades”.</div>
       </div></section>`; }).join("");
-  detIdx.querySelectorAll("[data-go]").forEach(a=>a.onclick=()=>{ ir("organograma/"+a.dataset.go); });
+  detIdx.querySelectorAll("[data-dgo]").forEach(a=>a.onclick=e=>{ e.preventDefault(); ir("organograma/"+a.dataset.dgo); });
 }
 function renderOrg(sel){
   if(sel) ost.tab="detalhe";
@@ -871,7 +878,7 @@ function renderOrg(sel){
   atrAll.style.visibility = ost.tab==="detalhe" ? "hidden" : "visible";
   { const nv=CARGOS.filter(vis).length; orgSub.textContent = ost.min ? "Equipe mínima" : "Estrutura completa"; segMin(); }
   if(ost.tab==="salarios"){} else if(ost.tab==="arvore"){ const first=!treeWrap.dataset.c; renderTree(); if(first){ treeWrap.dataset.c=1; requestAnimationFrame(()=>{ treeWrap.scrollLeft=(treeWrap.scrollWidth-treeWrap.clientWidth)/2; }); } } else { renderDetalhe();
-    detIdx.querySelectorAll("a").forEach(a=>a.classList.toggle("on", a.dataset.go===sel));
+    detIdx.querySelectorAll("a").forEach(a=>a.classList.toggle("on", a.dataset.dgo===sel));
     document.querySelectorAll(".dcard").forEach(d=>d.classList.toggle("hl", d.id==="det-"+sel));
     if(sel){ const el=document.getElementById("det-"+sel); if(el) setTimeout(()=>el.scrollIntoView({behavior:"smooth",block:"start"}),30); } }
 }
