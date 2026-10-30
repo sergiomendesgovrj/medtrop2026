@@ -343,6 +343,25 @@ details.dent>summary .cnt{color:#6b7280;font-weight:600;letter-spacing:0}
 .ostack2 .colh span{color:#6b7280;font-weight:600}
 .ostack2 .olist{padding-top:4px}
 
+/* ---- foto que vira: competências ---- */
+.oflip{width:108px;height:108px;perspective:900px;cursor:pointer;transition:width .35s ease,height .35s ease;position:relative;z-index:2}
+.oflip.on{width:240px;height:452px}
+.oflip .fin{position:relative;width:100%;height:100%;transition:transform .6s ease;transform-style:preserve-3d}
+.oflip.on .fin{transform:rotateY(180deg)}
+.oflip .ff,.oflip .fb{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.oflip .ff{display:grid;place-items:center}
+.oflip .ff .ocirc{cursor:pointer}
+.fbadge{position:absolute;bottom:-4px;right:-4px;width:26px;height:26px;border-radius:50%;background:#f5b642;color:#1b2a4a;font-size:15px;font-weight:800;display:grid;place-items:center;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.oflip .fb{transform:rotateY(180deg);background:#13233a;color:#fff;border-radius:16px;padding:12px 13px;text-align:left;overflow:auto;box-shadow:0 10px 26px rgba(10,20,40,.35);font-size:11.5px;line-height:1.35}
+.fb .fbh{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#9fb3cc;margin-bottom:6px;font-weight:700}
+.fb .fbs{margin-top:7px}
+.fb .fbs b{display:block;color:#f5b642;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px}
+.fb .fbs div{margin:1px 0}
+.fb .ftags{display:flex;flex-wrap:wrap;gap:4px;margin-top:3px}
+.fb .ftags span{background:rgba(255,255,255,.12);border-radius:999px;padding:2px 8px;font-size:10.5px}
+.fb .fbx{margin-top:8px;font-size:10px;color:#8193ab;text-align:center}
+@media (prefers-reduced-motion:reduce){.oflip,.oflip .fin{transition:none}}
+
 </style>
 </head>
 <body>
@@ -757,7 +776,7 @@ initControls(); render();
 </script>
 <script>
 const CARGOS_PROJ = [
- {id:"dir", pk:"SERGIO", num:"1", cargo:"Diretor de Projetos", nome:"Sergio Mendes", adm:"01/2023", pai:null,
+ {id:"dir", pk:"SERGIO", skills:{"form": ["Análise de Sistemas — Universidade Castelo Branco", "Pós-graduação: Análise de Sistemas (PUC-Rio) e Gestão de Tecnologia (UFRJ)", "Master em Liderança e Gestão — CLP"], "exp": ["Implantação de museus no IDG: Museu das Favelas, MAZ (COP 30) e masterplan do MuP", "Gestão pública: SEA-RJ (FMA/RJ, R$ 250 mi), SEEDUC-RJ e Câmara dos Deputados"], "comp": ["Gestão de portfólio e projetos", "Prazos, orçamento e riscos", "Planejamento estratégico e metas", "Governança e compliance", "Estrutura organizacional e pessoas", "Dados e dashboards"]}, num:"1", cargo:"Diretor de Projetos", nome:"Sergio Mendes", adm:"01/2023", pai:null,
   missao:"Garantir a implantação eficiente de museus e exposições por meio da gestão estratégica de projetos, assegurando prazos, custos e qualidade IDG.",
   atrib:["Coordenar as atividades de implantação de museus e exposições","Gerenciar o portfólio de projetos IDG, prezando pelo cumprimento dos prazos e garantindo que estejam dentro dos custos preestabelecidos","Levantar métricas adequadas e apresentá-las aos stakeholders, para que acompanhem o desenvolvimento das ações dos projetos","Trazer soluções para situações adversas nos projetos IDG, que podem envolver colaboradores, fornecedores ou custos","Acompanhar a evolução das atividades e o nível de produtividade dos executores dos projetos","Fazer relatórios de acompanhamento e de entrega de cada projeto","Gerir o orçamento, a comunicação e os riscos dos projetos IDG"],
   formacao:["Graduação em Análise de Sistemas — Universidade Castelo Branco (RJ)", "Pós-graduação em Análise de Sistemas — PUC-Rio (1993–1994)", "Pós-graduação em Management of Technology in Computer Networks — UFRJ (1999–2000)", "Master em Liderança e Gestão — CLP, Centro de Liderança Pública (2017–2018)", "Diretor Executivo e de Planejamento e Gestão do IDG (desde 2023): Museu das Favelas (2024), Museu das Amazônias para a COP 30 (2025), masterplan do Museu do Petróleo e Novas Energias (2026), Museu do Jardim Botânico e Cais do Valongo", "Diretor de Operações da Liderança do Partido Novo na Câmara dos Deputados (2019–2022)", "Subsecretário de Planejamento da Secretaria de Estado do Ambiente do RJ e Secretário Executivo da Câmara de Compensação Ambiental — FMA/RJ (2015–2018)", "Subsecretário de Infraestrutura e Chefe de Gabinete da Secretaria de Estado de Educação do RJ (2009–2014)", "Diretor no Centro de Tecnologia do Estado do RJ"], conhec:["Gestão de portfólio e de projetos de implantação: prazos, orçamento, riscos e comunicação", "Planejamento estratégico e gestão por metas e indicadores (mapa estratégico, reuniões de resultado)", "Governança, compliance e reestruturação organizacional", "Gestão de pessoas: organogramas, descrição de cargos, plano de cargos e salários e avaliação de desempenho", "Ciência de dados e dashboards para apoio à decisão", "Análise de sistemas e gestão de tecnologia", "Gestão de fundos e recursos de compensação ambiental"], fonte:"Aba “Descrição Diretor” (missão e atribuições); formação, experiência e conhecimentos do currículo de Sergio Mendes"},
@@ -851,7 +870,7 @@ const ENTREGAS = {"dir": [{"p": "MuP · Masterplan", "i": [{"t": "Entrega do Mas
 /* ================= ORGANOGRAMA ================= */
 const VAGA_SVG='<svg viewBox="0 0 64 64"><circle cx="32" cy="24" r="13" fill="#1b2a4a"/><path d="M8 60c2-14 12-22 24-22s22 8 24 22z" fill="#1b2a4a"/><path d="M19 22c0-9 6-15 13-15s13 6 13 15c-3-4-8-6-13-6s-10 2-13 6z" fill="#1b2a4a"/></svg>';
 const iniciais = n => n.split(/\s+/).filter(Boolean).map(w=>w[0]).filter((c,i,a)=>i===0||i===a.length-1).join("").toUpperCase();
-const ost = {tab:"arvore", open:new Set(), min:true};
+const ost = {tab:"arvore", open:new Set(), min:true, flip:new Set()};
 let ORGK="proj";
 const ORGR = () => ORGK==="belem" ? "belem" : "organograma";
 function setOrg(k){ if(k===ORGK) return; ORGK=k; CARGOS = k==="belem" ? CARGOS_BELEM : CARGOS_PROJ; ost.open.clear(); treeWrap.dataset.c=""; if(typeof tst!=="undefined") tst.gerClosed.clear(); }
@@ -889,7 +908,14 @@ function nodeBox(c){
   const flags = (c.proposta?'<div><span class="flag">missão proposta · a validar</span></div>':'') + (c.conferir?'<div><span class="flag">ocupante a confirmar</span></div>':'') + (!c.minima&&ORGK!=="belem"?'<div><span class="flag fx">fora da equipe mínima</span></div>':'');
   const atr = aberto ? `<div class="oatr">${c.atrib.slice(0,5).map(a=>`<div class="oi">${esc(a)}</div>`).join("")}<span class="more" data-det="${c.id}">${c.atrib.length>5?`+ ${c.atrib.length-5} no detalhamento →`:"Ver detalhamento →"}</span></div>` : "";
   return `<div class="onode${c.staff?" st":""}${c.grupo&&c.membros?" grp":""}" id="node-${c.id}">
-    <div class="ocirc" data-tog="${c.id}" title="${aberto?"Ocultar":"Mostrar"} atribuições">${circ}</div>
+    ${c.skills?`<div class="oflip${ost.flip.has(c.id)?" on":""}" data-flip="${c.id}" title="Clique na foto para ver as competências"><div class="fin">
+      <div class="ff"><div class="ocirc">${circ}<span class="fbadge">↻</span></div></div>
+      <div class="fb"><div class="fbh">Competências de ${esc(c.nome.split(" ")[0])}</div>
+        <div class="fbs"><b>Formação</b>${c.skills.form.map(x=>`<div>${esc(x)}</div>`).join("")}</div>
+        <div class="fbs"><b>Experiência</b>${c.skills.exp.map(x=>`<div>${esc(x)}</div>`).join("")}</div>
+        <div class="fbs"><b>Competências</b><div class="ftags">${c.skills.comp.map(x=>`<span>${esc(x)}</span>`).join("")}</div></div>
+        <div class="fbx">clique para voltar à foto</div></div></div></div>`
+    :`<div class="ocirc" data-tog="${c.id}" title="${aberto?"Ocultar":"Mostrar"} atribuições">${circ}</div>`}
     <div class="otext">${c.staff?`<div class="stg">${esc(c.stag||"Assessoria")}</div>`:""}<div class="c">${esc(c.cargo)}</div>${quem}<div class="e">${esc(c.equipe||"Projetos · 000")}</div>${flags}</div>
     <div class="omiss"><b>Missão</b>${esc(c.missao)}</div>
     <div class="obtns"><button class="oatr-btn" data-tog="${c.id}"><i>${aberto?"−":"+"}</i>Atribuições (${c.atrib.length})</button>${nEnt(c.id)?`<button class="oent-btn" data-ent="${c.id}">Entregas (${nEnt(c.id)})</button>`:""}</div>
@@ -924,6 +950,7 @@ function renderTree(){
   bandTxt();
   atrAll.textContent = CARGOS.filter(vis).every(c=>ost.open.has(c.id)) ? "Fechar todas as atribuições" : "Abrir todas as atribuições";
   tree.querySelectorAll("[data-tog]").forEach(el=>el.onclick=()=>{ const k=el.dataset.tog; ost.open.has(k)?ost.open.delete(k):ost.open.add(k); renderTree(); });
+  tree.querySelectorAll("[data-flip]").forEach(el=>el.onclick=()=>{ const k=el.dataset.flip; el.classList.toggle("on"); el.classList.contains("on")?ost.flip.add(k):ost.flip.delete(k); });
   tree.querySelectorAll("[data-det]").forEach(el=>el.onclick=()=>{ ir(ORGR()+"/"+el.dataset.det); });
 }
 function renderDetalhe(){ const ordem=ordemF();
